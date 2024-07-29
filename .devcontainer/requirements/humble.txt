@@ -1,0 +1,4 @@
+numpy==1.25.2
+scipy
+tf
+pupil-labs-realtime-api

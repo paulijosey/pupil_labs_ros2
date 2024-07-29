@@ -1,0 +1,30 @@
+services:
+  pupil_labs_dev:
+    container_name: pupil_labs_dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - USER_UID=${uid_docker}
+        - USER_GID=${gid_docker}
+    image: pupil_labs_dev
+    network_mode: host
+    ipc: host
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      # add the code to the container
+      - ../pupil_labs_ros2:/ws/src/pupil_labs_ros2
+      # additionally mount the custom messages needed
+      - ../pupil_labs_ros2_msgs:/ws/src/pupil_labs_ros2_msgs
+      # mount cached build dirs
+      - ../cache/build:/ws/build
+      - ../cache/install:/ws/install
+      - ../cache/log:/ws/log
+    # execute a command that keeps the container running
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    restart: on-failure
+    environment:
+      - DISPLAY=$DISPLAY
+      - XDG_RUNTIME_DIR=/tmp/.X11-unix

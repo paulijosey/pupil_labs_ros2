@@ -1,0 +1,23 @@
+launch:
+
+# pupillabs launch parameters
+- arg:
+    name: "pupillabs_ip_addr"
+    default: "10.0.1.1"
+
+# start our node
+- node:
+    pkg: "pupil_labs_ros2"
+    exec: "pupil_labs_stream_node"
+    name: "pupil_labs_glasses"
+    namespace: "smart_glasses"
+    param: 
+    -
+        name: "ip_addr"
+        value: "$(var pupillabs_ip_addr)"
+
+- node:
+    pkg: "gaze_transform"
+    exec: "gaze_viz_node"
+    name: "gaze_viz"
+    namespace: ""
